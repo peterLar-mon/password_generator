@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Password Generator</h1>
+      <div id="length">
+        <p>Password length:</p>
+        <input type="text" min="6" id="length-range" value="12" />
+      </div>
+      <div id="password">
+        <div class="input">
+          <input type="checkbox" id="uppercase" name="uppercase" checked /> 
+          <label for="uppercase"> Include Uppercase</label>
+        </div>
+        <div class="input">
+          <input type="checkbox" id="include-number" name="include-number" checked />
+          <label for="include-number"> Include Number</label>
+        </div>
+        <div class="input">
+          <input type="checkbox" id="include-symbol" name="include-symbol" checked />
+          <label for="include-symbol"> Include Special Characters</label>
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="button" onclick="generate()">Generate Password</button>
+        <button class="button" onclick="reset()">Reset</button>
+      </div>
+      <div class="password">
+        <div id="password-output">Your password will be appear here</div>
+      </div>
+    </div>
+    <script>
+      function genPass(length, upper, numbers, symbols){
+      const lower = "abcdefghijklmnopqrstuvwxyz";
+      const upperCh = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const numbersCh = "0123456789";
+      const symbolsCh = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+      let characters = lower;
+
+      let password = "";
+
+      if (upper) characters += upperCh;
+      if (numbers) characters += numbersCh;
+      if (symbols) characters += symbolsCh;
+
+      for(var i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters[randomIndex];
+      }
+      return password;
+      }
+      function generate() {
+        const length = parseInt(document.getElementById('length-range').value);
+        const upper = document.getElementById("uppercase").checked;
+        const numbers = document.getElementById("include-number").checked;
+        const symbols = document.getElementById("include-symbol").checked;
+
+        const password = genPass(length, upper, numbers, symbols);
+        document.querySelector('#password-output').textContent = password;
+      }
+      function reset(){
+        document.getElementById("length-range").value = 12;
+        document.getElementById("uppercase").checked = true;
+        document.getElementById("include-number").checked = true;
+        document.getElementById("include-symbol").checked = true;
+        document.querySelector('#password-output').textContent = "Your password will appear here";
+      }
+    </script>
+  </body>
+  </html>
+  
